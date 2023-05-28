@@ -1,0 +1,46 @@
+import numpy as np
+from numba import cuda
+
+@cuda.jit
+def matrixMul(A, B, C):
+    # Get the row and column indices for each thread
+    row, col = cuda.grid(2)
+    
+    # Perform matrix multiplication for valid indices
+    if row < N and col < K:
+        sum_val = 0.0
+        for i in range(M):
+            sum_val += A[row, i] * B[i, col]
+        C[row, col] = sum_val
+
+size = int(input("enter the size of matrix: "))
+
+# set the dimensions of the matrix
+M = N = K = size
+
+# A = np.random.randn(N, M).astype(np.float32)
+# B = np.random.randn(M, K).astype(np.float32)
+# create binary matrices for A & B
+A = np.random.randint(2, size=(N, M)).astype(np.float32)
+B = np.random.randint(2, size=(N, M)).astype(np.float32)
+
+# create a matrix to store the result
+C = np.zeros((N, K), dtype=np.float32)
+
+
+# transfer the matrices to the GPU
+d_A = cuda.to_device(A)
+d_B = cuda.to_device(B)
+d_C = cuda.to_device(C)
+
+# define the block and grid dimensions for CUDA kernel
+block_dim = (32, 32)
+grid_dim = ((N + block_dim[0] - 1) // block_dim[0], (K + block_dim[1] - 1) // block_dim[1])
+
+#launch the kernel on the GPU
+matrixMul[grid_dim, block_dim](d_A, d_B, d_C)
+
+# copy the result back to the host
+C = d_C.copy_to_host()
+
+print(C)
