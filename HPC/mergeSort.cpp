@@ -67,7 +67,18 @@ void mergeSort(vector<int>& arr) {
 }
 
 int main() {
-    vector<int> arr = {9, 5, 7, 1, 3, 6, 2, 8, 4};
+    cout<<"Enter the number of elements :"<<endl;
+    cin>>n;
+
+    vector<int> arr(n);
+
+    cout<<"enter the elements :"<<endl;
+
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+
+    // vector<int> arr = {9, 5, 7, 1, 3, 6, 2, 8, 4};
 
     cout << "Original Array: ";
     for (int num : arr) {
@@ -75,13 +86,20 @@ int main() {
     }
     cout << endl;
 
+    double startTime = omp_get_wtime();
+
     mergeSort(arr);
+
+    double endTime = omp_get_wtime();
+    double interval = (endTime - startTime)*1000.0;
 
     cout << "Sorted Array: ";
     for (int num : arr) {
         cout << num << " ";
     }
     cout << endl;
+
+    cout << "Time taken: " << interval << " milliseconds" << endl;
 
     return 0;
 }

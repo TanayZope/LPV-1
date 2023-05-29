@@ -49,9 +49,16 @@ int main() {
     cout << "Enter the start node: ";
     cin >> startNode;
 
+    double startTime = omp_get_wtime();
+
     cout << "BFS Traversal: ";
     bfs(graph, visited, startNode);
     cout << endl;
+
+    double endTime = omp_get_wtime();
+    double interval = (endTime - startTime)*1000.0;
+
+    cout<<"Time taken: "<<interval<<" milliseconds"<<endl;
 
     return 0;
 }

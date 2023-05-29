@@ -17,8 +17,19 @@ void bubbleSort(vector<int>& arr){
 
 
 int main(){
-    vector<int> arr = { 9, 1, 8, 2, 7, 3, 6, 4, 5, 0 };
+    // vector<int> arr = { 9, 1, 8, 2, 7, 3, 6, 4, 5, 0 };
     
+    int n;
+    cout<<"Enter the number of elements :"<<endl;
+    cin>>n;
+    
+    vector<int> arr(n);
+
+    cout<<"enter the elements :"<<endl;
+    for(int i=0; i<n; i++){
+        cin>>arr[i];
+    }
+
     cout<<"original :"<<endl;
     for(int num:arr){
         cout<<num<<" ";
